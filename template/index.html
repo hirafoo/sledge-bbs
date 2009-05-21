@@ -1,0 +1,10 @@
+Hello World! Current datetime is [% cur_date | html %]
+<br />
+[% co %]
+
+<br />
+[%- USE LinkTo -%]
+[% args = {
+    href => '/auth.cgi',
+} -%]
+[% LinkTo.link_to('link_text', args) %]

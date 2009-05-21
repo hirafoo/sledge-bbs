@@ -1,0 +1,15 @@
+Initial setup for BBS is now finished.
+
+Remember:
+
+1) Edit BBS/Config/_common.pm
+
+  % vi lib/BBS/Config/_common.pm
+
+2) Make session table.
+
+
+and you can start server as foloows:
+
+  % script/server.pl
+

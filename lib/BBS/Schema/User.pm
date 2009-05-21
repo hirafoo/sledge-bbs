@@ -1,0 +1,20 @@
+package BBS::Schema::User;
+use BBS::Utils;
+
+__PACKAGE__->resultset_class('BBS::ResultSet::User');
+__PACKAGE__->resultset_attributes({
+    alias => 'user',
+    from  => [{user => 'users'}],
+    cache => 1,
+    prefetch => [qw/entry/],
+    where => {'user.deleted' => 0},
+    order_by => 'user.id DESC',
+});
+__PACKAGE__->has_many("question", "BBS::Schema::Entry", { "foreign.user_id" => "self.id" });
+
+package BBS::ResultSet::User;
+use BBS::Utils;
+
+use base 'DBIx::Class::ResultSet';
+
+1;
