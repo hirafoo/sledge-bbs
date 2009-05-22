@@ -10,7 +10,7 @@ __PACKAGE__->resultset_attributes({
     where => {'user.deleted' => 0},
     order_by => 'user.id DESC',
 });
-__PACKAGE__->has_many("question", "BBS::Schema::Entry", { "foreign.user_id" => "self.id" });
+__PACKAGE__->has_many("entry", "BBS::Schema::Entry", { "foreign.user_id" => "self.id" });
 
 package BBS::ResultSet::User;
 use BBS::Utils;

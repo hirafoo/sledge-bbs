@@ -1,4 +1,4 @@
-package BBS::Data::User;
+package BBS::Data::Entry;
 
 use strict;
 use base qw/BBS::Data::Base::DBIC/;

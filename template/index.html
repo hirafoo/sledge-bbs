@@ -1,10 +1,56 @@
-Hello World! Current datetime is [% cur_date | html %]
+[%- IF user %]logined as [% user.name %][%- END %]
 <br />
-[% co %]
+<br />
+
+
+register form<br />
+<div style="border: 1px solid #666">
+    [% IF result %][% result %][%- END %]
+    <form method="post" action="/index.cgi">
+        <table border="1">
+            <tr><td>name</td><td><input type="text" name="name" /></td></tr>
+            <tr><td>password</td><td><input type="text" name="password" /></td></tr>
+        </table>
+        <input type="submit" />
+    </form>
+</div>
+
+<br />
+login form<br />
+<div style="border: 1px solid #666">
+    [% IF error %][% error %][%- END %]
+    <form method="post" action="/login.cgi">
+        <table border="1">
+            <tr><td>name</td><td><input type="text" name="name" /></td></tr>
+            <tr><td>password</td><td><input type="text" name="password" /></td></tr>
+        </table>
+        <input type="submit" />
+    </form>
+</div>
 
 <br />
 [%- USE LinkTo -%]
 [% args = {
-    href => '/auth.cgi',
+    href => '/entry.cgi',
 } -%]
-[% LinkTo.link_to('link_text', args) %]
+[% LinkTo.link_to('entry', args) %]
+[% args = {
+    href => '/entry/index.cgi',
+} -%]
+[% LinkTo.link_to('entry', args) %]
+[% args = {
+    href => '/logout.cgi',
+} -%]
+[% LinkTo.link_to('logout', args) %]
+
+<br />
+<br />
+registerd users<br />
+<div style="border: 1px solid #666">
+<table border="1">
+    <tr><th>name</th><th>password</th></th>
+[%- WHILE (u = users.next) -%]
+<tr><td>[% u.name %]</td><td>[% u.password %]</td></tr>
+[%- END %]
+</table>
+</div>

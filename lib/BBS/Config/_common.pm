@@ -1,6 +1,8 @@
 package BBS::Config::_common;
 use strict;
 use File::Spec;
+use BBS;
+use BBS::Schema;
 use vars qw(%C);
 *Config = \%C;
 
@@ -9,5 +11,7 @@ $C{DATASOURCE}    = [ 'dbi:mysql:bbs','root', '' ];
 $C{COOKIE_NAME}   = 'sledge_sid';
 $C{COOKIE_PATH}   = '/';
 $C{COOKIE_DOMAIN} = undef;
+
+$BBS::SCHEMA = BBS::Schema->connection( @{$C{DATASOURCE}} );
 
 1;
