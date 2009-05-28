@@ -1,6 +1,7 @@
 package BBS::Pages::Index;
 use BBS::ActiveRecord;
 use BBS::Utils;
+use self;
 use base qw(BBS::Pages);
 
 use BBS::Authorizer;
@@ -8,26 +9,20 @@ use BBS::Authorizer;
 __PACKAGE__->tmpl_dirname('.');
 
 sub dispatch_index {
-    my $self = shift;
-
     my $users = User->find_all_by( visible => 1 );
     my $user;
 
     $self->tmpl->param(
-        cur_date => scalar localtime,
         users => $users,
         ($user = $self->session->param('user')) ? (user => $user) : (),
     );
 }
 
 sub dispatch_auth {
-    my $self = shift;
     $self->tmpl->param(hoge => 'huga');
 }
 
 sub post_dispatch_index {
-    my $self = shift;
- 
     my @p = $self->r->param;
     my %params = map { $_ => $self->r->param($_) } @p;
 
@@ -46,28 +41,24 @@ sub post_dispatch_index {
     $self->tmpl->param(result => $result);
 }
 
-
 sub dispatch_login {}
 
 sub post_dispatch_login {
-    my $self = shift;
-p "post login";
     my @p = $self->r->param;
     my %params = map { $_ => $self->r->param($_) } @p;
 
     if (my $user = $self->check_user(\%params)) {
-        p 'login ok';
+        $self->tmpl->param(user => $user);
         $self->session->param(user => $user);
 #        return $self->redirect('/entry/index.cgi');
     }
     else {
-        p 'login ng';
         $self->tmpl->param(error => 'login failed');
     }
 }
        
 sub check_user {
-    my($self, $params) = @_;
+    my $params = $args[0];
 
     User->find_by(
         name => $params->{name},
@@ -76,18 +67,12 @@ sub check_user {
 }
 
 sub dispatch_logout {
-    my $self = shift;
-    p 1;
     $self->session->remove('user');
     my $sid = $self->session->session_id;
     Session->find_by(id => $sid)->delete;
     $self->redirect('/index.cgi');
-    $self->load_template('index.html');
-    $self->output_content;
-}
-
-sub dispatch_entry {
-    my $self = shift;
+    #$self->load_template('index.html');
+    #$self->output_content;
 }
 
 1;

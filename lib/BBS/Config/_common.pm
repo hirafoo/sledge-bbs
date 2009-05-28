@@ -1,12 +1,12 @@
 package BBS::Config::_common;
-use strict;
-use File::Spec;
 use BBS;
 use BBS::Schema;
+use BBS::Utils;
+use File::Spec;
 use vars qw(%C);
 *Config = \%C;
 
-$C{TMPL_PATH}     = File::Spec->rel2abs('template');
+$C{TMPL_PATH}     = File::Spec->rel2abs(($ENV{MOD_PERL} ? '../' : '') . 'template');
 $C{DATASOURCE}    = [ 'dbi:mysql:bbs','root', '' ];
 $C{COOKIE_NAME}   = 'sledge_sid';
 $C{COOKIE_PATH}   = '/';

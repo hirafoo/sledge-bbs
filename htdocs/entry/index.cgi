@@ -1,5 +1,4 @@
 use strict;
-use BBS::Pages::Index;
-BBS::Pages::Entry->new->dispatch('entry');
+use BBS::Pages::Entry::Index;
+BBS::Pages::Entry::Index->new->dispatch('index');
 
-__END__

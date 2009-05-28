@@ -1,6 +1,7 @@
-[%- IF user %]logined as [% user.name %][%- END %]
+[%- IF user %]logined as "[% user.name %]"[%- END %]
 <br />
 <br />
+
 
 
 register form<br />
@@ -16,9 +17,10 @@ register form<br />
 </div>
 
 <br />
+[% UNLESS user %]
 login form<br />
 <div style="border: 1px solid #666">
-    [% IF error %][% error %][%- END %]
+    [% IF error %]<span style="color:red">[% error %]</span>[%- END %]
     <form method="post" action="/login.cgi">
         <table border="1">
             <tr><td>name</td><td><input type="text" name="name" /></td></tr>
@@ -27,17 +29,14 @@ login form<br />
         <input type="submit" />
     </form>
 </div>
+[%- END %]
 
 <br />
-[%- USE LinkTo -%]
-[% args = {
-    href => '/entry.cgi',
-} -%]
-[% LinkTo.link_to('entry', args) %]
+[% USE LinkTo %]
 [% args = {
     href => '/entry/index.cgi',
 } -%]
-[% LinkTo.link_to('entry', args) %]
+[% LinkTo.link_to('entry/index.cgi', args) %]
 [% args = {
     href => '/logout.cgi',
 } -%]

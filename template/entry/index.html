@@ -1,1 +1,14 @@
 entry/index
+<br />
+<br />
+list
+<br />
+[%- WHILE (e = entries.next) -%]
+[% e.user.name %]:[% e.content | html %]<br />
+[%- END %]
+<br />
+create form<br />
+<form method="post" action="/entry/create.cgi">
+    <input type="text" name="content" />
+    <input type="submit" />
+</form>

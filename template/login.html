@@ -1,1 +1,8 @@
-login.html
+login.html<br />
+
+[%- IF error %]
+<span style="color:red">[% error %]</span>
+[%- ELSIF user %]
+login ok, session created. login as "[% user.name %]"
+[%- END %]
+<br />

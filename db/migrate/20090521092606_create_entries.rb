@@ -5,6 +5,7 @@ class CreateEntries < ActiveRecord::Migration
     create_table :entries do |t|
       t.references :user,       :null => false
 
+      t.string  :content, :null => false, :default => ''
       t.boolean :visible,       :null => false, :default => true
       t.boolean :deleted,       :null => false, :default => false
 

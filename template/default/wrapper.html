@@ -2,6 +2,12 @@
     <head>
     </head>
     <body>
+[%- USE LinkTo -%]
+[% args = {
+    href => '/index.cgi',
+} -%]
+[% LinkTo.link_to('top', args) %]<br />
+
 [% content -%]
     </body>
 </html>
