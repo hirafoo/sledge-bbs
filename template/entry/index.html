@@ -1,14 +1,22 @@
-entry/index
-<br />
-<br />
-list
-<br />
+<div>
+    <p class="mv">
+    entry list
+    </p>
+    <div>
+        <table border="1">
+            <tr><th>name</th><th>content</th><th>date</th></tr>
 [%- WHILE (e = entries.next) -%]
-[% e.user.name %]:[% e.content | html %]<br />
+<tr><td>[% e.user.name %]</td><td>[% e.content | html %]</td><td>[% e.date_slash %]</td></tr>
 [%- END %]
-<br />
-create form<br />
+        </table>
+</div>
+[% INCLUDE pager.html %]
+
+<div>
+create form
 <form method="post" action="/entry/create.cgi">
     <input type="text" name="content" />
     <input type="submit" />
 </form>
+</div>
+</div>

@@ -1,8 +1,10 @@
-login.html<br />
-
-[%- IF error %]
-<span style="color:red">[% error %]</span>
-[%- ELSIF user %]
+<div>
+    [%- IF error -%]
+<div class="red">[% error %]</div>
+[%- ELSIF user -%]
 login ok, session created. login as "[% user.name %]"
+[%- ELSE -%]
+<div class="red">please login</div>
 [%- END %]
-<br />
+
+</div>

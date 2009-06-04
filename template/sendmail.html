@@ -1,0 +1,8 @@
+[%- IF error %]<div class="red">[% error %]</div>[%- END %]
+<div>
+    <form method="post" action="/sendmail.cgi">
+        <p>to:<input type="text" name="to" /></p>
+        <p>msg:<textarea name="msg"></textarea></p>
+        <p><input type="submit" /></p>
+    </form>
+</div>

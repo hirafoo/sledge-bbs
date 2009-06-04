@@ -1,7 +1,6 @@
 package BBS::Authorizer;
-
-use strict;
-use base qw(Sledge::Authorizer);
+use base qw/Sledge::Authorizer/;
+use BBS::Utils;
 
 sub authorize {
     my($self, $page) = @_;

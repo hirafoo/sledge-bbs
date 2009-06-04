@@ -1,15 +1,6 @@
-Initial setup for BBS is now finished.
+注意点
 
-Remember:
-
-1) Edit BBS/Config/_common.pm
-
-  % vi lib/BBS/Config/_common.pm
-
-2) Make session table.
-
-
-and you can start server as foloows:
-
-  % script/server.pl
-
+mod_perlによる起動を前提としています。script/server.pl　では動作しません。
+mod_perlによる起動時に、環境変数 APP_PATH に、アプリケーションへのパスをセットしてください。
+ex:
+    PerlSetEnv APP_PATH /path/to/sledge-bbs/

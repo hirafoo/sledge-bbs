@@ -1,9 +1,8 @@
 package BBS::Schema;
-use BBS::Utils;
-
-use parent 'DBIx::Class::Schema::Loader';
-use Data::Page::Navigation;
+use base 'DBIx::Class::Schema::Loader';
 use autobox::String::Inflector;
+use BBS::Utils;
+use Data::Page::Navigation;
 use DateTime;
 use DBIx::Class::TimeStamp::Auto {
     auto_create_datetime_columns => [qw/created_at/],
@@ -21,7 +20,6 @@ __PACKAGE__->loader_options(
 
 package DBIx::Class::ResultSet;
 use BBS::Utils;
-
 use DBIx::Class::ResultClass::HashRefInflator;
 
 sub as_hashref {

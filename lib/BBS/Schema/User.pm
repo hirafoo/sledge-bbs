@@ -13,8 +13,7 @@ __PACKAGE__->resultset_attributes({
 __PACKAGE__->has_many("entry", "BBS::Schema::Entry", { "foreign.user_id" => "self.id" });
 
 package BBS::ResultSet::User;
-use BBS::Utils;
-
 use base 'DBIx::Class::ResultSet';
+use BBS::Utils;
 
 1;

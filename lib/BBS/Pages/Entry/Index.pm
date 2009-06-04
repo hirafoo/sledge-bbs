@@ -1,9 +1,9 @@
 package BBS::Pages::Entry::Index;
+use base qw/BBS::Pages/;
+use self;
 use BBS::ActiveRecord;
 use BBS::Authorizer;
 use BBS::Utils;
-use self;
-use base qw(BBS::Pages);
 
 __PACKAGE__->tmpl_dirname('entry');
 
@@ -16,28 +16,26 @@ sub dispatch_index {
         visible => 1,
     );
 
+    my $result = Entry->list($self->r->params, $entries);
     $self->tmpl->param(
-        entries => $entries,
-        msgs => 'hoge',
+        entries => $result->{data},
+        pager   => $result->{pager},
     );
 }
 
-sub post_dispatch_index {
-    $self->tmpl->param(msgs => 'hoge');
-}
-
-sub dispatch_create {
-}
+sub dispatch_create {}
 
 sub post_dispatch_create {
-    my @p = $self->r->param;
-    my %params = map { $_ => $self->r->param($_) } @p;
+    my $params = $self->r->params;
     my $user = $self->session->param('user');
 
-    Entry->create({
-        user_id => $user->id,
-        content => $params{content},
-    }) if $params{content};
+    if ($params->{content}) {
+        Entry->create({
+            user_id => $user->id,
+            content => $params->{content},
+        });
+        $self->tmpl->param(success => 1);
+    }
 }
 
 1;

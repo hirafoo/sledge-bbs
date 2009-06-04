@@ -1,0 +1,6 @@
+[%- USE LinkTo -%]
+[%  %]
+[%- MACRO link_to(text, args) IF text -%]
+    [%- SET args = args ? args : {} -%]
+    [%- LinkTo.link_to(text, args) -%]
+[%- END -%]

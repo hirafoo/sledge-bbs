@@ -1,7 +1,6 @@
 [%- IF error %]
-<span style="color:red">[% error %]
+<div class="red">[% error %]</div>
 [%- ELSIF success %]
-create ok.
+<p>create ok.</p>
 [%- END %]
-<br />
-<a href="/entry/index.cgi">/entry/index.cgi</a>
+

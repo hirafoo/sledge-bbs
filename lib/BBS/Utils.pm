@@ -2,8 +2,8 @@ package BBS::Utils;
 use strict;
 use warnings;
 
-use DateTime;
 use Data::Dumper;
+use DateTime;
 
 sub import {
     my $class = shift;
@@ -24,4 +24,14 @@ sub p {
 my $tz = DateTime::TimeZone->new( name => 'local' );
 sub now { DateTime->now(time_zone => $tz) }
     
+
+# add method to $self->r
+
+*Apache::Request::params = sub {
+    my $self = shift;
+    my @p = $self->param;
+    my %params = map { $_ => $self->param($_) } @p;
+    \%params;
+};
+
 1;

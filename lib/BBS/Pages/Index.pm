@@ -1,40 +1,29 @@
 package BBS::Pages::Index;
+use base qw/BBS::Pages/;
+use self;
 use BBS::ActiveRecord;
 use BBS::Utils;
-use self;
-use base qw(BBS::Pages);
 
 use BBS::Authorizer;
+use Sledge::Plugin::Email::Japanese;
 
 __PACKAGE__->tmpl_dirname('.');
 
-sub dispatch_index {
-    my $users = User->find_all_by( visible => 1 );
-    my $user;
-
-    $self->tmpl->param(
-        users => $users,
-        ($user = $self->session->param('user')) ? (user => $user) : (),
-    );
-}
-
-sub dispatch_auth {
-    $self->tmpl->param(hoge => 'huga');
-}
+sub dispatch_index {}
 
 sub post_dispatch_index {
-    my @p = $self->r->param;
-    my %params = map { $_ => $self->r->param($_) } @p;
+    my $params = $self->r->params;
 
+    # 本当はモデルに実装すべきだけど手抜き
     my $result;
-    if (!$params{name} or !$params{password}) { # oh fxxk'n poor validate
+    if (!$params->{name} or !$params->{password}) { # oh fxxk'n poor validate
         $result = 'can not blank';
     }
-    elsif (User->find_by( name => $params{name} )) {
+    elsif (User->find_by( name => $params->{name} )) {
         $result = 'the name is already used';
     }
     else {
-        User->create( \%params );
+        User->create( $params );
         $result = 'create your data';
     }
 
@@ -44,13 +33,11 @@ sub post_dispatch_index {
 sub dispatch_login {}
 
 sub post_dispatch_login {
-    my @p = $self->r->param;
-    my %params = map { $_ => $self->r->param($_) } @p;
+    my $params = $self->r->params;
 
-    if (my $user = $self->check_user(\%params)) {
+    if (my $user = $self->check_user($params)) {
         $self->tmpl->param(user => $user);
         $self->session->param(user => $user);
-#        return $self->redirect('/entry/index.cgi');
     }
     else {
         $self->tmpl->param(error => 'login failed');
@@ -58,10 +45,10 @@ sub post_dispatch_login {
 }
        
 sub check_user {
-    my $params = $args[0];
+    my ($params) = @args;
 
     User->find_by(
-        name => $params->{name},
+        name     => $params->{name},
         password => $params->{password},
     );
 }
@@ -71,8 +58,26 @@ sub dispatch_logout {
     my $sid = $self->session->session_id;
     Session->find_by(id => $sid)->delete;
     $self->redirect('/index.cgi');
-    #$self->load_template('index.html');
-    #$self->output_content;
+}
+
+sub dispatch_sendmail {}
+
+sub post_dispatch_sendmail {
+    my $params = $self->r->params;
+
+    if(!$params->{to} or !$params->{msg}) {
+        return $self->tmpl->param(error => 'not blank');
+    }
+
+    $self->send_mail(
+        'mail.txt' => {
+            Subject => 'Hi!',
+            To      => $params->{to},
+            TmplParams => {
+                msg => $params->{msg},
+            },
+        },
+    );
 }
 
 1;

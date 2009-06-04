@@ -1,11 +1,8 @@
-[%- IF user %]logined as "[% user.name %]"[%- END %]
-<br />
-<br />
 
-
-
-register form<br />
-<div style="border: 1px solid #666">
+<div>
+    <p>
+        register form
+    </p>
     [% IF result %][% result %][%- END %]
     <form method="post" action="/index.cgi">
         <table border="1">
@@ -16,11 +13,12 @@ register form<br />
     </form>
 </div>
 
-<br />
 [% UNLESS user %]
-login form<br />
-<div style="border: 1px solid #666">
-    [% IF error %]<span style="color:red">[% error %]</span>[%- END %]
+<div>
+    <p>
+        login form
+    </p>
+    [% IF error %]<div class="red">[% error %]</span>[%- END %]
     <form method="post" action="/login.cgi">
         <table border="1">
             <tr><td>name</td><td><input type="text" name="name" /></td></tr>
@@ -31,21 +29,10 @@ login form<br />
 </div>
 [%- END %]
 
-<br />
-[% USE LinkTo %]
-[% args = {
-    href => '/entry/index.cgi',
-} -%]
-[% LinkTo.link_to('entry/index.cgi', args) %]
-[% args = {
-    href => '/logout.cgi',
-} -%]
-[% LinkTo.link_to('logout', args) %]
-
-<br />
-<br />
-registerd users<br />
-<div style="border: 1px solid #666">
+<div>
+    <p>
+        registerd users
+    </p>
 <table border="1">
     <tr><th>name</th><th>password</th></th>
 [%- WHILE (u = users.next) -%]

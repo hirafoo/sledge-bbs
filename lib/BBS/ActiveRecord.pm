@@ -1,10 +1,8 @@
 package BBS::ActiveRecord;
-use BBS::Utils;
-use BBS::Schema;
-use DirHandle;
-use UNIVERSAL::require;
-
 use base qw/Exporter/;
+use BBS::Schema;
+use BBS::Utils;
+use UNIVERSAL::require;
 
 my @schemas;
 use subs @schemas;
@@ -14,11 +12,10 @@ our @EXPORT = @schemas;
 my %Model;
 
 BEGIN {
-    my $app_path = $ENV{APP_PATH} || '';
-    my $path = $app_path . './lib/BBS/Schema';
-    my $d = DirHandle->new($path);
-    while (defined (my $Class = $d->read)) {
-        next if $Class =~ /^\./;
+    my $path = $ENV{APP_PATH} . './lib/BBS/Schema';
+
+    opendir my $dh, $path or die "$path : $!";
+    for my $Class (grep !/^\.\.?/, readdir($dh)) {
         $Class =~ s/\.pm//;
         push @schemas, $Class;
         $Model{$Class} = undef;
@@ -26,6 +23,7 @@ BEGIN {
         no strict 'refs';
         *{$Class} = $ref;
     }
+    closedir $dh;
 }
 
 sub import {

@@ -1,26 +1,35 @@
 package BBS::Pages;
-use strict;
-use Sledge::Pages::Compat;
+use BBS::ActiveRecord;
+use BBS::Config;
+use BBS::Utils;
 
 use Sledge::Authorizer::Null;
 use Sledge::Charset::Default;
+use Sledge::Pages::Compat;
 use Sledge::SessionManager::Cookie;
 use Sledge::Session::MySQL;
 use Sledge::Template::TT;
 
-use BBS::Config;
-
 __PACKAGE__->register_hook(
     BEFORE_DISPATCH => sub {
         my $self = shift;
+
+        my $users = User->find_all_by( visible => 1 );
+        my $user;
+
+        $self->tmpl->param(
+            users => $users,
+            ($user = $self->session->param('user')) ? (user => $user) : (),
+        );
 
         $self->tmpl->set_option(
             INCLUDE_PATH => [
                 $self->create_config->tmpl_path,
                 $self->create_config->tmpl_path . '/default',
             ],
-            WRAPPER => $self->create_config->tmpl_path .'/default/wrapper.html',
+            PRE_PROCESS => 'macro.txt',
             TEMPLATE_EXTENSION => '.html',
+            WRAPPER => $self->create_config->tmpl_path .'/default/wrapper.html',
         );
     },
 );

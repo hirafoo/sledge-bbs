@@ -1,7 +1,7 @@
 package BBS;
-use strict;
+use BBS::Utils;
 
-our $VERSION = '0.01';
 our $SCHEMA;
+our $VERSION = '0.01';
 
 1;

@@ -9,8 +9,7 @@ __PACKAGE__->resultset_attributes({
 });
 
 package BBS::ResultSet::Session;
-use BBS::Utils;
-
 use base 'DBIx::Class::ResultSet';
+use BBS::Utils;
 
 1;

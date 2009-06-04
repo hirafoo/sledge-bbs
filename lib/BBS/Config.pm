@@ -1,7 +1,6 @@
 package BBS::Config;
-use strict;
-
-use base qw(Sledge::Config Class::Singleton);
+use base qw/Sledge::Config Class::Singleton/;
+use BBS::Utils;
 
 sub case_sensitive { 0 }
 
